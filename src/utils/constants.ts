@@ -10,3 +10,5 @@ function getEnv(key: string): string {
 
 export const PORT = process.env.PORT || 3000;
 export const MONGO_URI = getEnv("MONGO_URI");
+export const ACCESS_TOKEN_SECRET = getEnv("ACCESS_TOKEN_SECRET");
+export const REFRESH_TOKEN_SECRET = getEnv("REFRESH_TOKEN_SECRET");

@@ -17,7 +17,22 @@ export class UserController implements IUserController {
 
       const user = await this.userService.userLogin(email, password);
 
-      res.status(200).json({ success: true, user });
+      const { accessToken, refreshToken } = user;
+      user.refreshToken = undefined;
+      user.accessToken = undefined;
+
+      res.cookie("refreshToken", refreshToken, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "strict",
+      });
+
+      res.status(200).json({
+        success: true,
+        message: "user login successfull",
+        user,
+        accessToken,
+      });
     } catch (error) {
       next(error);
     }
@@ -35,7 +50,9 @@ export class UserController implements IUserController {
         phone,
         password,
       });
-      res.status(200).json({ success: true, user });
+      res
+        .status(200)
+        .json({ success: true, message: "user signup successfull" });
     } catch (error) {
       next(error);
     }

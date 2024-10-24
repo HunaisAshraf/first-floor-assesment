@@ -26,4 +26,17 @@ export class UserRepository implements IUserRepository {
       throw new Error(error);
     }
   }
+  async updateUser(id: string, user: User): Promise<User> {
+    try {
+      const updatedUser = await UserModel.findByIdAndUpdate(id, user);
+
+      if (!user) {
+        throw new AppError("user not found", 404);
+      }
+
+      return user;
+    } catch (error: any) {
+      throw new Error(error);
+    }
+  }
 }

@@ -2,6 +2,7 @@ import { IUserRepository } from "../interfaces/repositories/IuserRepository";
 import { IUserService } from "../interfaces/services/IUserService";
 import { AppError } from "../utils/appError";
 import { comparePassword, encryptPassword } from "../utils/encryption";
+import { generateAccessToken, generateRefreshToken } from "../utils/jwtToken";
 import { User } from "../utils/types";
 
 export class UserService implements IUserService {
@@ -31,13 +32,30 @@ export class UserService implements IUserService {
       const user = await this.userRepository.getUserByEmail(email);
 
       const passwordMatch = comparePassword(password, user.password!);
-      console.log(user, passwordMatch);
 
       if (!passwordMatch) {
         throw new AppError("invalid password", 401);
       }
 
-      return { name: user.name, email: user.email, phone: user.phone };
+      const payload = {
+        _id: user._id,
+        role: user.role,
+      };
+      const accessToken = generateAccessToken(payload);
+      const refreshToken = generateRefreshToken(payload);
+
+      await this.userRepository.updateUser(user._id!, {
+        ...user,
+        refreshToken,
+      });
+
+      return {
+        name: user.name,
+        email: user.email,
+        phone: user.phone,
+        refreshToken,
+        accessToken,
+      };
     } catch (error: any) {
       throw new Error(error);
     }
