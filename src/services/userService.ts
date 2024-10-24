@@ -14,6 +14,12 @@ export class UserService implements IUserService {
 
   async userSignUp(user: User): Promise<User> {
     try {
+      const userExist = await this.userRepository.getUserByEmail(user.email);
+
+      if (userExist) {
+        throw new AppError("user already exist", 409);
+      }
+
       const hashedPassword = encryptPassword(user.password!);
 
       const newUser = await this.userRepository.addUser({
