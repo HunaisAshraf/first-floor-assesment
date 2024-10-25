@@ -49,3 +49,33 @@ export const loginValidator = (
     next(error);
   }
 };
+
+export const taskValidator = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { title, description, priority, dueDate } = req.body;
+
+    if (!title || !validator.isAlphanumeric(title)) {
+      throw new AppError("invalid title", 400);
+    }
+
+    if (!description) {
+      throw new AppError("invalid description", 400);
+    }
+
+    const piorities = ["low", "medium", "high"];
+    if (!priority || !piorities.includes(priority)) {
+      throw new AppError("invalid description", 400);
+    }
+    if (!dueDate) {
+      throw new AppError("invalid dueDate", 400);
+    }
+
+    next();
+  } catch (error) {
+    next(error);
+  }
+};

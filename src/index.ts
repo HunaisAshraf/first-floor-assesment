@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import { PORT } from "./utils/constants";
 import { connectDb } from "./config/db";
 import userRoutes from "./routes/userRoutes";
+import taskRoutes from "./routes/taskRoutes";
 import { errorHandler } from "./middlewares/errorHandler";
 
 const app = express();
@@ -15,6 +16,7 @@ app.use(morgan("dev"));
 connectDb();
 
 app.use("/api/users", userRoutes);
+app.use("/api/tasks", taskRoutes);
 app.use(errorHandler);
 
 app.listen(PORT, () => {
