@@ -49,9 +49,9 @@ export class UserService implements IUserService {
       };
       const accessToken = generateAccessToken(payload);
       const refreshToken = generateRefreshToken(payload);
-
+      const updateUser = JSON.parse(JSON.stringify(user));
       await this.userRepository.updateUser(user._id!, {
-        ...user,
+        ...updateUser,
         refreshToken,
       });
 
