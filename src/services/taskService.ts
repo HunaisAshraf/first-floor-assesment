@@ -1,3 +1,4 @@
+import { io } from "..";
 import { ITaskRepository } from "../interfaces/repositories/ITaskRepositroy";
 import { ITaskService } from "../interfaces/services/ITaskService";
 import { Task } from "../utils/types";
@@ -36,6 +37,14 @@ export class TaskService implements ITaskService {
   async assignTask(id: string, assignees: string[]): Promise<Task> {
     try {
       const task = await this.taskRepository.assignTask(id, assignees);
+
+      assignees.forEach((assin) => {
+        io.to(assin).emit("taskassigned", {
+          message: "new task has been assigned",
+          task: task.title,
+        });
+      });
+
       return task;
     } catch (error: any) {
       throw new Error(error);
