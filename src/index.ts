@@ -9,6 +9,7 @@ import { connectDb } from "./config/db";
 import userRoutes from "./routes/userRoutes";
 import taskRoutes from "./routes/taskRoutes";
 import { errorHandler } from "./middlewares/errorHandler";
+import rateLimit from "express-rate-limit";
 
 const app = express();
 const server = http.createServer(app);
@@ -19,6 +20,15 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(morgan("dev"));
 connectDb();
+
+const limiter = rateLimit({
+  windowMs: 5 * 60 * 1000,
+  limit: 100,
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+app.use(limiter);
 
 app.use("/api/users", userRoutes);
 app.use("/api/tasks", taskRoutes);

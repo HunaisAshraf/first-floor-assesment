@@ -6,4 +6,6 @@ export interface ITaskService {
   deleteTask(id: string): Promise<boolean>;
   assignTask(id: string, assignees: string[]): Promise<Task>;
   completeTask(id: string, userId: string): Promise<Task>;
+  getTask(page: number): Promise<any>;
+  filterTask(priority: string): Promise<Task[]>;
 }

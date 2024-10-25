@@ -42,4 +42,23 @@ export class TaskRepository implements ITaskRepository {
       throw new Error(error);
     }
   }
+  async getTasks(page: number): Promise<any> {
+    try {
+      let limit = 5;
+      let skip = (page - 1) * limit;
+      const tasks = await TaskModel.find().skip(skip).limit(limit);
+
+      return tasks;
+    } catch (error: any) {
+      throw new Error(error);
+    }
+  }
+  async filterTask(priority: string): Promise<any> {
+    try {
+      const tasks = await TaskModel.find({ priority });
+      return tasks;
+    } catch (error: any) {
+      throw new Error(error);
+    }
+  }
 }

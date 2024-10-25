@@ -6,4 +6,6 @@ export interface ITaskController {
   deleteTask(req: Request, res: Response, next: NextFunction): Promise<void>;
   assignTask(req: Request, res: Response, next: NextFunction): Promise<void>;
   completeTask(req: Request, res: Response, next: NextFunction): Promise<void>;
+  getTask(req: Request, res: Response, next: NextFunction): Promise<void>;
+  filterTask(req: Request, res: Response, next: NextFunction): Promise<void>;
 }

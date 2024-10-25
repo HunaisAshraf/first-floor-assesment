@@ -5,4 +5,6 @@ export interface ITaskRepository {
   editTask(id: string, task: any): Promise<Task>;
   deleteTask(id: string): Promise<boolean>;
   assignTask(id: string, assignees: any[]): Promise<any>;
+  getTasks(page: number): Promise<any>;
+  filterTask(priority: string): Promise<any>;
 }

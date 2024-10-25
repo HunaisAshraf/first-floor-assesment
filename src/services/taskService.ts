@@ -52,12 +52,27 @@ export class TaskService implements ITaskService {
   }
   async completeTask(id: string, userId: string): Promise<Task> {
     try {
-      console.log("kdsjfkjsf");
       const task = await this.taskRepository.editTask(id, {
         status: "completed",
         updateBy: userId,
       });
       return task;
+    } catch (error: any) {
+      throw new Error(error);
+    }
+  }
+  async getTask(page: number): Promise<any> {
+    try {
+      const tasks = await this.taskRepository.getTasks(page);
+      return tasks;
+    } catch (error: any) {
+      throw new Error(error);
+    }
+  }
+  async filterTask(priority: string): Promise<Task[]> {
+    try {
+      const tasks = await this.taskRepository.filterTask(priority);
+      return tasks;
     } catch (error: any) {
       throw new Error(error);
     }

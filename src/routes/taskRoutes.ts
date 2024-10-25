@@ -1,5 +1,5 @@
 import express from "express";
-import { isAdmin } from "../middlewares/authorisation";
+import { isAdmin, isLogin } from "../middlewares/authorisation";
 import { taskValidator } from "../middlewares/validation";
 import { TaskController } from "../controller/taskController";
 import { TaskService } from "../services/taskService";
@@ -10,6 +10,8 @@ const repository = new TaskRepository();
 const service = new TaskService(repository);
 const controller = new TaskController(service);
 
+router.route("").get(isAdmin, controller.getTask.bind(controller));
+router.route("/filter").get(isAdmin, controller.filterTask.bind(controller));
 router
   .route("/create")
   .post(isAdmin, taskValidator, controller.createTask.bind(controller));
@@ -24,6 +26,6 @@ router
   .put(isAdmin, controller.assignTask.bind(controller));
 router
   .route("/complete/:id")
-  .put(isAdmin, controller.completeTask.bind(controller));
+  .put(isLogin, controller.completeTask.bind(controller));
 
 export default router;

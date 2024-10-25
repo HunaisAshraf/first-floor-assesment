@@ -49,7 +49,7 @@ export class TaskController implements ITaskController {
         .status(200)
         .json({ success: true, message: "task edited successfull", task });
     } catch (error: any) {
-      throw new Error(error);
+      next(error);
     }
   }
   async deleteTask(
@@ -66,7 +66,7 @@ export class TaskController implements ITaskController {
         .status(200)
         .json({ success: true, message: "task delete successfull" });
     } catch (error: any) {
-      throw new Error(error);
+      next(error);
     }
   }
   async assignTask(
@@ -83,7 +83,7 @@ export class TaskController implements ITaskController {
         .status(200)
         .json({ success: true, message: "assignees add successfull", task });
     } catch (error: any) {
-      throw new Error(error);
+      next(error);
     }
   }
   async completeTask(
@@ -100,7 +100,39 @@ export class TaskController implements ITaskController {
         .status(200)
         .json({ success: true, message: "task complete successfull", task });
     } catch (error: any) {
-      throw new Error(error);
+      next(error);
+    }
+  }
+  async getTask(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    try {
+      const page = Number(req.query.page);
+      const tasks = await this.taskService.getTask(page);
+
+      res
+        .status(200)
+        .json({ success: true, message: "task retreive successfull", tasks });
+    } catch (error) {
+      next(error);
+    }
+  }
+  async filterTask(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    try {
+      const { priority } = req.body;
+      console.log(priority);
+      const tasks = await this.taskService.filterTask(priority);
+      res
+        .status(200)
+        .json({ success: true, message: "task retreive successfull", tasks });
+    } catch (error: any) {
+      next(error);
     }
   }
 }
