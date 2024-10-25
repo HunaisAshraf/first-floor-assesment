@@ -1,6 +1,6 @@
 ## Links
 
-1. API documentation link [https://documenter.getpostman.com/view/24493119/2sAY4shigT](https://documenter.getpostman.com/view/24493119/2sAY4shigT).
+1. API documentation link [https://documenter.getpostman.com/view/24493119/2sAY4shigT](https://documenter.getpostman.com/view/24493119/2sAY4shigT)
 
 2. Hosted link [https://first-floor-assesment.onrender.com/](https://first-floor-assesment.onrender.com/)
 
